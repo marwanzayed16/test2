@@ -7,7 +7,8 @@ const router = express.Router();
 router.get('/someroute', (req,res) => {
   const ips = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   let arr = ips.split(", ");
-  res.send(`Your Country is ${geo.lookup(arr[0])}`)
+  console.log(geo.lookup(arr[0]));
+  res.send(`Your Country is ${geo.lookup(arr[0]).country}`)
 });
 
 app.use('/', router);
