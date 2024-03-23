@@ -1,16 +1,18 @@
 // app.js
 const express = require('express');
-const getCountryFromIP = require('./countryMiddleware');
+var geo = require('geoip-lite');
 const app = express();
+const router = express.Router();
 
-// Use custom middleware to get country based on IP address
-app.use(getCountryFromIP);
-
-app.get('/', (req, res) => {
-    const country = req.country ? req.country : 'Unknown';
-    res.send(`Your country is: ${country}`);
+router.get('/someroute', (req,res) => {
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  res.json({
+    ip,
+    country:geo.lookup(req.ip)
+  })
 });
 
+app.use('/', router);
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
