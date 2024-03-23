@@ -5,10 +5,17 @@ const app = express();
 const router = express.Router();
 
 router.get('/someroute', (req,res) => {
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const ips = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  let result = [];
+  let arr = ips.split(", ");
+  arr.map((ip) => {
+    result.push({
+        ip,
+        country:geo.lookup(ip)
+    })
+  })
   res.json({
-    ip,
-    country:geo.lookup(req.ip)
+    result
   })
 });
 
