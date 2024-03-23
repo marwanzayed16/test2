@@ -6,16 +6,9 @@ const router = express.Router();
 
 router.get('/someroute', (req,res) => {
   const ips = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  let result = [];
   let arr = ips.split(", ");
-  arr.map((ip) => {
-    result.push({
-        ip,
-        country:geo.lookup(ip)
-    })
-  })
   res.json({
-    result
+    country:geo.lookup(arr[0])
   })
 });
 
