@@ -4,13 +4,12 @@ const axios = require('axios');
 async function getCountryFromIP(req, res, next) {
     try {
         // Get client IP address from request object
-        const ipAddress = req.ip;
 
         // Make a request to ipinfo.io to get country information based on the IP address
-        const response = await axios.get(`https://ipinfo.io/${ipAddress}/country`);
+        const response = await axios.get(`http://ip-api.com/json/`);
 
         // Extract country from the response data
-        req.country = response.data;
+        req.country = response.data.country;
         next();
     } catch (error) {
         console.error('Error fetching country:', error.message);
